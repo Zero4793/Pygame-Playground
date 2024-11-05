@@ -1,5 +1,6 @@
 import pygame
 import random
+import SFX
 
 class Ball:
 	def __init__(self, screen):
@@ -12,7 +13,21 @@ class Ball:
 		self.elasticity = random.uniform(0, 1)
 		self.friction = random.uniform(0, .1)
 		self.airResistance = random.uniform(0, .001) #space jelly
-		self.col = (self.elasticity*255, self.friction*2550, self.airResistance*255000)
+		self.R = self.elasticity*255
+		self.G = self.friction*2550
+		self.B = self.airResistance*255000
+
+	
+	def __init__(self, screen, rad, pos, vel, elasticity, friction, airResistance, col):
+		self.screen = screen
+		self.exist = True
+		self.rad = rad
+		self.pos = pygame.math.Vector2(pos)
+		self.vel = pygame.math.Vector2(vel)
+		self.elasticity = elasticity
+		self.friction = friction
+		self.airResistance = airResistance
+		self.R, self.G, self.B = col
 
 
 	def process(self):
@@ -35,6 +50,7 @@ class Ball:
 			self.vel.x *= -self.elasticity
 			self.pos.x -= 2*(self.pos.x-self.rad)
 			self.vel.y *= 1-self.friction
+			SFX.note(self.vel.magnitude()*50, 0.1, 0.5, 1)
 		if self.pos.y - self.rad <= 0:
 			self.vel.y *= -self.elasticity
 			self.pos.y -= 2*(self.pos.y-self.rad)
@@ -43,6 +59,7 @@ class Ball:
 			self.vel.x *= -self.elasticity
 			self.pos.x -= 2*(self.pos.x+self.rad-width)
 			self.vel.y *= 1-self.friction
+			SFX.note(self.vel.magnitude()*50, 0.1, 0.5, 0)
 		if self.pos.y + self.rad >= height:
 			self.vel.y *= -self.elasticity
 			self.pos.y -= 2*(self.pos.y+self.rad-height)
@@ -54,4 +71,5 @@ class Ball:
 
 
 	def display(self, image=None):
-		pygame.draw.circle(self.screen, self.col, (int(self.pos.x), int(self.pos.y)), self.rad)
+		col = (self.R, self.G, self.B)
+		pygame.draw.circle(self.screen, col, (int(self.pos.x), int(self.pos.y)), self.rad)

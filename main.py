@@ -9,7 +9,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 # Initialize Pygame and main screen
 pygame.init()
 screen = pygame.display.set_mode((1600, 900))
-pygame.display.set_caption('Sims, Sandboxes, and Screensavers')
+pygame.display.set_caption('Pygame Playground')
 clock = pygame.time.Clock()
 
 def main():
