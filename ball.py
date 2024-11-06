@@ -45,25 +45,33 @@ class Ball:
 
 
 	def wallCollide(self):
+		walls = [False, False, False, False]
 		width, height = self.screen.get_size()
 		if self.pos.x - self.rad <= 0:
 			self.vel.x *= -self.elasticity
 			self.pos.x -= 2*(self.pos.x-self.rad)
 			self.vel.y *= 1-self.friction
-			SFX.note(self.vel.magnitude()*50, 0.1, 0.5, 1)
+			if self.vel.x != 0: SFX.note(self.vel.magnitude()*50, 0.1, 0.5, 1)
+			walls[0] = True			
+		elif self.pos.x + self.rad >= width:
+			self.vel.x *= -self.elasticity
+			self.pos.x -= 2*(self.pos.x+self.rad-width)
+			self.vel.y *= 1-self.friction
+			if self.vel.x != 0: SFX.note(self.vel.magnitude()*50, 0.1, 0.5, 0)
+			walls[1] = True
 		if self.pos.y - self.rad <= 0:
 			self.vel.y *= -self.elasticity
 			self.pos.y -= 2*(self.pos.y-self.rad)
 			self.vel.x *= 1-self.friction
-		if self.pos.x + self.rad >= width:
-			self.vel.x *= -self.elasticity
-			self.pos.x -= 2*(self.pos.x+self.rad-width)
-			self.vel.y *= 1-self.friction
-			SFX.note(self.vel.magnitude()*50, 0.1, 0.5, 0)
-		if self.pos.y + self.rad >= height:
+			if self.vel.y != 0: SFX.note(self.vel.magnitude()*50, 0.1, 0.5, .5)
+			walls[2] = True
+		elif self.pos.y + self.rad >= height:
 			self.vel.y *= -self.elasticity
 			self.pos.y -= 2*(self.pos.y+self.rad-height)
 			self.vel.x *= 1-self.friction
+			if self.vel.y != 0: SFX.note(self.vel.magnitude()*50, 0.1, 0.5, .5)
+			walls[3] = True
+		return walls
 
 
 	def gravity(self):
