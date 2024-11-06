@@ -1,7 +1,10 @@
 import pygame
 import sys
 import os
-from core import Core
+
+from button import Button
+from menu import Menu
+
 
 # fix working directory
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -14,7 +17,7 @@ clock = pygame.time.Clock()
 
 def main():
 	keyheld = set()
-	game = Core(screen)
+	game = Main(screen)
 
 	while True:
 		# Handle events
@@ -37,6 +40,32 @@ def main():
 		game.display()
 		pygame.display.flip() 
 		clock.tick(60)
+
+
+class Main:
+	def __init__(self, screen):
+		# init each window/focus
+		self.menu = Menu(screen, self)
+		self.window = self.menu # the active/running window/focus
+
+		self.mouseTarget = None
+		self.voidButton = Button(screen, self, (0,0), (1600,900), None, None) # does nothing itself. improves click detection
+
+
+	def process(self, keyheld, keypressed):
+		if keypressed == "escape":
+			if self.window != self.menu:
+				self.window = self.menu
+			else:
+				pygame.quit()
+				sys.exit()
+		self.window.process(keyheld, keypressed)
+		self.voidButton.process()
+
+
+	def display(self):
+		self.window.display()
+
 
 main()
 pygame.quit()
