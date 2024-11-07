@@ -61,7 +61,7 @@ class Main:
 				pygame.quit()
 				sys.exit()
 		self.window.process(keyheld, keypressed)
-		if self.window != self.menu:
+		if self.window != self.menu and dist(pygame.mouse.get_pos(),(1400,0))<250:
 			self.exitButton.process()
 			if self.exitButton.active:
 				self.exitButton.active = False
@@ -71,9 +71,12 @@ class Main:
 
 	def display(self):
 		self.window.display()
-		if self.window != self.menu:
+		if self.window != self.menu and dist(pygame.mouse.get_pos(),(1400,0))<250:
 			self.exitButton.display()
 
+
+def dist(a,b):
+	return ((a[0]-b[0])**2+(a[1]-b[1])**2)**0.5
 
 main()
 pygame.quit()
