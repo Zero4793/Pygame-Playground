@@ -1,5 +1,5 @@
-from button import Button
-from gravity import Gravity
+from util.button import Button
+from apps.gravity import Gravity
 import pygame
 import sys
 

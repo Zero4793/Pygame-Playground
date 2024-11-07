@@ -2,7 +2,7 @@ import pygame
 import sys
 import os
 
-from button import Button
+from util.button import Button
 from menu import Menu
 
 

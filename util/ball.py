@@ -1,6 +1,6 @@
 import pygame
 import random
-import SFX
+import util.SFX as SFX
 
 class Ball:
 	def __init__(self, screen):

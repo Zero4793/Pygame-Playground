@@ -1,4 +1,4 @@
-from ball import Ball
+from util.ball import Ball
 
 class Gravity:
 	def __init__(self, screen):
