@@ -3,31 +3,32 @@ import random
 import util.SFX as SFX
 
 class Ball:
-	def __init__(self, screen):
+	def __init__(self, screen, pos=None, vel=None, rad=None, elasticity=None, friction=None, airResistance=None, col=None):
 		self.screen = screen
 		self.exist = True
+		
 		width, height = screen.get_size()
-		self.rad = random.randint(10, 30)
-		self.pos = pygame.math.Vector2(random.randint(self.rad, width - self.rad), random.randint(self.rad, height - self.rad))
-		self.vel = pygame.math.Vector2(random.randint(-10, 10), random.randint(-10, 10))
-		self.elasticity = random.uniform(0, 1)
-		self.friction = random.uniform(0, .1)
-		self.airResistance = random.uniform(0, .001) #space jelly
-		self.R = self.elasticity*255
-		self.G = self.friction*2550
-		self.B = self.airResistance*255000
+		
+		self.rad = rad if rad else random.randint(10, 30)
+		self.pos = pygame.math.Vector2(pos) if pos else pygame.math.Vector2(
+			random.randint(self.rad, width - self.rad),
+			random.randint(self.rad, height - self.rad)
+		)
+		self.vel = pygame.math.Vector2(vel) if vel else pygame.math.Vector2(
+			random.randint(-10, 10),
+			random.randint(-10, 10)
+		)
+		self.elasticity = elasticity if elasticity else random.uniform(0, 1)
+		self.friction = friction if friction else random.uniform(0, 0.1)
+		self.airResistance = airResistance if airResistance else random.uniform(0, 0.001)
 
-	
-	def __init__(self, screen, rad, pos, vel, elasticity, friction, airResistance, col):
-		self.screen = screen
-		self.exist = True
-		self.rad = rad
-		self.pos = pygame.math.Vector2(pos)
-		self.vel = pygame.math.Vector2(vel)
-		self.elasticity = elasticity
-		self.friction = friction
-		self.airResistance = airResistance
-		self.R, self.G, self.B = col
+		if col:
+			self.R, self.G, self.B = col
+		else:
+			self.R = self.elasticity * 255
+			self.G = self.friction * 2550
+			self.B = self.airResistance * 255000
+
 
 
 	def process(self):
