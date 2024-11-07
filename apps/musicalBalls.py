@@ -6,8 +6,10 @@ class MusicalBalls:
 
 		self.balls = []
 		for i in range(1,46):
-			self.balls.append(Ball(screen,(10,20*i-10),(i/5,0),10,1,0,0,(200,min(i*5,255),200)))
-		#screen, pos, vel, rad, elasticity, friction, airResistance, col
+			self.balls.append(Ball(screen,
+						  pos=(10,20*i-10),
+						  vel=(i/5,0),
+						  col=(200,min(i*5,255),200)))
 
 
 	def process(self, keyheld, keypressed):
