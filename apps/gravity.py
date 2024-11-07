@@ -7,7 +7,6 @@ class Gravity:
 		self.balls = []
 		for i in range(1,5):
 			self.balls.append(Ball(screen))
-		#screen, rad, pos, vel, elasticity, friction, airResistance, col
 
 
 	def process(self, keyheld, keypressed):

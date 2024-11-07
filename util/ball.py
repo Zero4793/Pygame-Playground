@@ -9,20 +9,20 @@ class Ball:
 		
 		width, height = screen.get_size()
 		
-		self.rad = rad if rad else random.randint(10, 30)
-		self.pos = pygame.math.Vector2(pos) if pos else pygame.math.Vector2(
+		self.rad = rad if rad is not None else random.randint(10, 30)
+		self.pos = pygame.math.Vector2(pos) if pos is not None else pygame.math.Vector2(
 			random.randint(self.rad, width - self.rad),
 			random.randint(self.rad, height - self.rad)
 		)
-		self.vel = pygame.math.Vector2(vel) if vel else pygame.math.Vector2(
-			random.randint(-10, 10),
-			random.randint(-10, 10)
+		self.vel = pygame.math.Vector2(vel) if vel is not None else pygame.math.Vector2(
+			random.uniform(-10, 10),
+			random.uniform(-10, 10)
 		)
-		self.elasticity = elasticity if elasticity else random.uniform(0, 1)
-		self.friction = friction if friction else random.uniform(0, 0.1)
-		self.airResistance = airResistance if airResistance else random.uniform(0, 0.001)
+		self.elasticity = elasticity if elasticity is not None else random.uniform(0, 1) # bounce
+		self.friction = friction if friction is not None else random.uniform(0, 0.1) # wall slow
+		self.airResistance = airResistance if airResistance is not None else random.uniform(0, 0.001) # space jelly
 
-		if col:
+		if col is not None:
 			self.R, self.G, self.B = col
 		else:
 			self.R = self.elasticity * 255
