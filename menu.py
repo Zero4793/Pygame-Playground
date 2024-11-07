@@ -16,7 +16,7 @@ class Menu:
 
 		# buttons
 		self.gameButtons = [Button(screen, main, (20,20+100*i), (160,80), [self.games[i][0]]*4, [(100,200,100), (150,250,150), (50,250,50), (0,250,0)]) for i in range(len(self.games))]
-		self.exitButton = Button(screen, main, (1420,20), (160,80), ["Exit","Quit Game","Are you sure?","Quitting..."], [(150,100,100), (250,150,150), (250,50,50), (250,0,0)])
+		self.exitButton = Button(screen, main, (1430,10), (160,40), ["Exit","Quit Game","Are you sure?","Quitting..."], [(150,100,100), (250,150,150), (250,50,50), (250,0,0)])
 		# pos, dim, text[passive, hover, held, active], color[passive, hover, held, active]
 
 

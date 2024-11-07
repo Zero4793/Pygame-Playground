@@ -50,6 +50,7 @@ class Main:
 
 		self.mouseTarget = None
 		self.voidButton = Button(screen, self, (0,0), (1600,900), None, None) # does nothing itself. improves click detection
+		self.exitButton = Button(screen, self, (1430,10), (160,40), ["Exit","Quit to menu","Are you sure?","Goodbye"], [(150,100,100), (250,150,150), (250,50,50), (250,0,0)])
 
 
 	def process(self, keyheld, keypressed):
@@ -60,11 +61,18 @@ class Main:
 				pygame.quit()
 				sys.exit()
 		self.window.process(keyheld, keypressed)
+		if self.window != self.menu:
+			self.exitButton.process()
+			if self.exitButton.active:
+				self.exitButton.active = False
+				self.window = self.menu
 		self.voidButton.process()
 
 
 	def display(self):
 		self.window.display()
+		if self.window != self.menu:
+			self.exitButton.display()
 
 
 main()
