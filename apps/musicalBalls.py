@@ -15,6 +15,7 @@ class MusicalBalls:
 	def process(self, keyheld, keypressed):
 		for ball in self.balls:
 			ball.process()
+			ball.wallCollide()
 			if not ball.exist:
 				self.balls.remove(ball)
 

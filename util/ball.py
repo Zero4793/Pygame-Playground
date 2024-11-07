@@ -3,7 +3,7 @@ import random
 import util.SFX as SFX
 
 class Ball:
-	def __init__(self, screen, pos=None, vel=None, col=None, radius=10, elasticity=1, friction=0, spaceJelly=0, floorGrav=0, bodyGrav=0):
+	def __init__(self, screen, pos=None, vel=None, col=None, radius=10, elasticity=1, friction=0, spaceJelly=0, floorGrav=0, bodyGrav=0, repel=0):
 		# either give value, true for random, or empty for base
 		self.screen = screen
 		self.exist = True
@@ -23,12 +23,11 @@ class Ball:
 		self.spaceJelly = spaceJelly
 		self.floorGrav = floorGrav
 		self.bodyGrav = bodyGrav
+		self.repel = repel
 
 
 	def process(self):
 		self.killNoClip()
-		self.wallCollide()
-		self.gravity()
 		self.vel *= 1-self.spaceJelly
 		self.pos += self.vel
 
@@ -72,7 +71,21 @@ class Ball:
 	def gravity(self):
 		self.vel.y += self.floorGrav
 
+	
+	def force(self, other):
+		diff = (other.pos - self.pos)
+		dist = diff.magnitude()
+		dir = diff.normalize()
+		if dist < self.radius + other.radius:
+			self.vel -= dir*self.vel.magnitude()
+			return
 
-	def display(self, image=None):
+		#gravity
+		self.vel += dir * self.bodyGrav / (dist**2)
+		#repel
+		self.vel -= dir * self.repel / (dist**3)
+
+
+	def display(self):
 		col = (self.R, self.G, self.B)
 		pygame.draw.circle(self.screen, col, (int(self.pos.x), int(self.pos.y)), self.radius)
