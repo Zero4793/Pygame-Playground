@@ -1,6 +1,5 @@
 import pygame
 import random
-import util.SFX as SFX
 
 class Ball:
 	def __init__(self, screen, pos=None, vel=None, col=None, radius=10, elasticity=1, friction=0, spaceJelly=0, floorGrav=0, bodyGrav=0, repel=0):
@@ -45,25 +44,21 @@ class Ball:
 			self.vel.x *= -self.elasticity
 			self.pos.x -= 2*(self.pos.x-self.radius)
 			self.vel.y *= 1-self.friction
-			if self.vel.x != 0: SFX.note(self.vel.magnitude()*50, 0.1, 0.5, 1)
 			walls[0] = True			
 		elif self.pos.x + self.radius >= width:
 			self.vel.x *= -self.elasticity
 			self.pos.x -= 2*(self.pos.x+self.radius-width)
 			self.vel.y *= 1-self.friction
-			if self.vel.x != 0: SFX.note(self.vel.magnitude()*50, 0.1, 0.5, 0)
 			walls[1] = True
 		if self.pos.y - self.radius <= 0:
 			self.vel.y *= -self.elasticity
 			self.pos.y -= 2*(self.pos.y-self.radius)
 			self.vel.x *= 1-self.friction
-			if self.vel.y != 0: SFX.note(self.vel.magnitude()*50, 0.1, 0.5, .5)
 			walls[2] = True
 		elif self.pos.y + self.radius >= height:
 			self.vel.y *= -self.elasticity
 			self.pos.y -= 2*(self.pos.y+self.radius-height)
 			self.vel.x *= 1-self.friction
-			if self.vel.y != 0: SFX.note(self.vel.magnitude()*50, 0.1, 0.5, .5)
 			walls[3] = True
 		return walls
 
@@ -87,5 +82,5 @@ class Ball:
 
 
 	def display(self):
-		col = (self.R, self.G, self.B)
+		col = (min(self.R, 255), min(self.G, 255), min(self.B, 255))
 		pygame.draw.circle(self.screen, col, (int(self.pos.x), int(self.pos.y)), self.radius)
