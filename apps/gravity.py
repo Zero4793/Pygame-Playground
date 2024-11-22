@@ -11,7 +11,7 @@ class Gravity:
 						  pos=(random.randint(0,screen.get_width()), random.randint(0,screen.get_height())),
 						  vel=(random.uniform(-5,5), random.uniform(-5,5)),
 						  bodyGrav=1,
-						  repel=0,
+						  repel=100,
 						  spaceJelly=0,
 						  collide=True,
 						  elasticity=0.5,

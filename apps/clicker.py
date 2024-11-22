@@ -15,11 +15,11 @@ class Clicker:
 
 	def process(self, keyheld, keypressed):
 		self.T += 1
-		if self.T % 20 == 0:
+		if self.T % 1 == 0:
 			self.T = 0
-			self.score += self.numbers[0]
+			self.score += self.numbers[0]/1000
 			for i in range(7):
-				self.numbers[i] += self.numbers[i+1] / (10**(i+1))
+				self.numbers[i] += self.numbers[i+1] / 1000 #(10**(i+1))
 
 		self.scoreButton.process()
 		if self.scoreButton.active:
@@ -36,7 +36,7 @@ class Clicker:
 
 	def display(self):
 		font = pygame.font.Font(None, 36)
-		text = font.render(f"Score: {self.score:,.2f}", True, (250,250,250))
+		text = font.render(f"Score: {self.score:,.3f}", True, (250,250,250))
 		self.screen.blit(text, (800-text.get_width()/2, 250))
 
 		self.scoreButton.display()
@@ -45,6 +45,6 @@ class Clicker:
 			text = f'${self.costs[i]:,}'
 			text = font.render(str(text), True, (200,200,200))
 			self.screen.blit(text, (20+180*i,120))
-			text = f'{self.numbers[i]:,.2f}'
+			text = f'{self.numbers[i]:,.3f}'
 			text = font.render(str(text), True, (200,200,200))
 			self.screen.blit(text, (20+180*i,150))

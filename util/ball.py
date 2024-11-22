@@ -78,9 +78,9 @@ class Ball:
 		dir = diff.normalize()
 		if dist > self.radius + other.radius:
 			#gravity
-			self.vel += dir * other.mass * self.bodyGrav / (dist**2)
+			self.acc += dir * other.mass * self.bodyGrav / (dist**2)
 			#repel
-			self.vel -= dir * self.repel / (dist**3)
+			self.acc -= dir * other.mass * self.repel / (dist**3)
 			return
 		if not self.collide: return
 
