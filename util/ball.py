@@ -75,7 +75,7 @@ class Ball:
 	def force(self, other):
 		diff = other.pos - self.pos
 		dist = diff.magnitude()
-		dir = diff.normalize()
+		dir = diff.normalize() if dist > 0 else diff
 		if dist > self.radius + other.radius:
 			#gravity
 			self.acc += dir * other.mass * self.bodyGrav / (dist**2)
@@ -89,10 +89,16 @@ class Ball:
 		denom = msum * dist * dist
 		vdiff = other.vel - self.vel
 
-		#A
 		num = 2 * other.mass * vdiff.dot(diff)
 		if num > 0: return
-		self.acc += diff * num/denom
+		self.acc += diff * num/denom * self.elasticity
+		
+		# merging
+		if dist < self.radius:
+			if not self.exist: return
+			other.exist = False
+			self.mass += other.mass
+			self.radius = self.mass**0.5
 
 
 	def display(self):

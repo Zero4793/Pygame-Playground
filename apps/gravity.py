@@ -6,16 +6,16 @@ class Gravity:
 		self.screen = screen
 
 		self.balls = []
-		for i in range(16):
+		for i in range(256):
 			self.balls.append(Ball(screen,
 						  pos=(random.randint(0,screen.get_width()), random.randint(0,screen.get_height())),
 						  vel=(random.uniform(-5,5), random.uniform(-5,5)),
 						  bodyGrav=1,
-						  repel=100,
+						  repel=50,
 						  spaceJelly=0,
 						  collide=True,
-						  elasticity=0.5,
-						  radius = random.randint(10,20)
+						  elasticity=.99,
+						  radius = random.randint(10,10),
 						  ))
 
 
