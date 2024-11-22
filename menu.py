@@ -1,6 +1,7 @@
 from util.button import Button
 from apps.gravity import Gravity
 from apps.musicalBalls import MusicalBalls
+from apps.clicker import Clicker
 import pygame
 import sys
 
@@ -11,7 +12,8 @@ class Menu:
 
 		self.games = [
 			("Gravity Sim", Gravity),
-			("Musical Balls", MusicalBalls)
+			("Musical Balls", MusicalBalls),
+			("Clicker", Clicker)
 		]
 
 		# buttons
@@ -26,7 +28,7 @@ class Menu:
 			b.process()
 			if b.active:
 				b.active = False
-				self.main.window = self.games[i][1](self.screen)
+				self.main.window = self.games[i][1](self.screen, self.main)
 		self.exitButton.process()
 		# handle button actions externally
 		# if self.gravSimButton.active:

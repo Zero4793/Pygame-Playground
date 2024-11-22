@@ -2,7 +2,7 @@ import pygame
 import random
 
 class Ball:
-	def __init__(self, screen, pos=None, vel=None, col=None, radius=10, elasticity=1, friction=0, spaceJelly=0, floorGrav=0, bodyGrav=0, repel=0):
+	def __init__(self, screen, pos=None, vel=None, col=None, radius=10, mass=None, elasticity=1, friction=0, spaceJelly=0, floorGrav=0, bodyGrav=0, repel=0, collide=False):
 		# either give value, true for random, or empty for base
 		self.screen = screen
 		self.exist = True
@@ -10,6 +10,7 @@ class Ball:
 		width, height = screen.get_size()
 		self.pos = pygame.math.Vector2(pos) if pos is not None else pygame.math.Vector2(width/2, height/2)
 		self.vel = pygame.math.Vector2(vel) if vel is not None else pygame.math.Vector2(0,0)
+		self.acc = pygame.math.Vector2(vel) if vel is not None else pygame.math.Vector2(0,0)
 		if col:
 			self.R, self.G, self.B = col
 		else:
@@ -17,18 +18,22 @@ class Ball:
 			self.G = random.randint(0,255)
 			self.B = random.randint(0,255)
 		self.radius = radius
+		self.mass = mass if mass is not None else radius**2
 		self.elasticity = elasticity
 		self.friction = friction
 		self.spaceJelly = spaceJelly
 		self.floorGrav = floorGrav
 		self.bodyGrav = bodyGrav
 		self.repel = repel
+		self.collide = collide
 
 
 	def process(self):
 		self.killNoClip()
 		self.vel *= 1-self.spaceJelly
+		self.vel += self.acc
 		self.pos += self.vel
+		self.acc = pygame.math.Vector2(0,0)
 
 
 	def killNoClip(self):
@@ -68,17 +73,26 @@ class Ball:
 
 	
 	def force(self, other):
-		diff = (other.pos - self.pos)
+		diff = other.pos - self.pos
 		dist = diff.magnitude()
 		dir = diff.normalize()
-		if dist < self.radius + other.radius:
-			self.vel -= dir*self.vel.magnitude()
+		if dist > self.radius + other.radius:
+			#gravity
+			self.vel += dir * other.mass * self.bodyGrav / (dist**2)
+			#repel
+			self.vel -= dir * self.repel / (dist**3)
 			return
+		if not self.collide: return
 
-		#gravity
-		self.vel += dir * self.bodyGrav / (dist**2)
-		#repel
-		self.vel -= dir * self.repel / (dist**3)
+		# ball to ball collision
+		msum = self.mass + other.mass
+		denom = msum * dist * dist
+		vdiff = other.vel - self.vel
+
+		#A
+		num = 2 * other.mass * vdiff.dot(diff)
+		if num > 0: return
+		self.acc += diff * num/denom
 
 
 	def display(self):

@@ -3,7 +3,7 @@ import util.SFX as SFX
 
 
 class MusicalBalls:
-	def __init__(self, screen):
+	def __init__(self, screen, _):
 		self.screen = screen
 
 		self.balls = []
