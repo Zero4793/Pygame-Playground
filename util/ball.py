@@ -2,7 +2,7 @@ import pygame
 import random
 
 class Ball:
-	def __init__(self, screen, pos=None, vel=None, col=None, radius=10, mass=None, elasticity=1, friction=0, spaceJelly=0, floorGrav=0, bodyGrav=0, repel=0, collide=False):
+	def __init__(self, screen, pos=None, vel=None, col=None, radius=10, mass=None, elasticity=1, friction=0, spaceJelly=0, floorGrav=0, bodyGrav=0, repel=0, collide=False, merging=False):
 		# either give value, true for random, or empty for base
 		self.screen = screen
 		self.exist = True
@@ -10,7 +10,9 @@ class Ball:
 		width, height = screen.get_size()
 		self.pos = pygame.math.Vector2(pos) if pos is not None else pygame.math.Vector2(width/2, height/2)
 		self.vel = pygame.math.Vector2(vel) if vel is not None else pygame.math.Vector2(0,0)
-		self.acc = pygame.math.Vector2(vel) if vel is not None else pygame.math.Vector2(0,0)
+		self.acc = pygame.math.Vector2(0,0)
+		self.mov = pygame.math.Vector2(0,0)
+
 		if col:
 			self.R, self.G, self.B = col
 		else:
@@ -26,14 +28,16 @@ class Ball:
 		self.bodyGrav = bodyGrav
 		self.repel = repel
 		self.collide = collide
+		self.merging = merging
 
 
 	def process(self):
 		self.killNoClip()
 		self.vel *= 1-self.spaceJelly
 		self.vel += self.acc
-		self.pos += self.vel
+		self.pos += self.vel + self.mov
 		self.acc = pygame.math.Vector2(0,0)
+		self.mov = pygame.math.Vector2(0,0)
 
 
 	def killNoClip(self):
@@ -88,13 +92,14 @@ class Ball:
 		msum = self.mass + other.mass
 		denom = msum * dist * dist
 		vdiff = other.vel - self.vel
+		overlap = self.radius + other.radius - dist
+		self.mov -= dir * overlap * (self.mass/msum)
 
 		num = 2 * other.mass * vdiff.dot(diff)
-		if num > 0: return
 		self.acc += diff * num/denom * self.elasticity
 		
 		# merging
-		if dist < self.radius:
+		if self.merging and dist < self.radius:
 			if not self.exist: return
 			other.exist = False
 			self.mass += other.mass
