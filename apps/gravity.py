@@ -7,16 +7,16 @@ class Gravity:
 		self.screen = screen
 
 		self.balls = []
-		for i in range(6):
+		for i in range(12):
 			self.balls.append(Ball(screen,
 						  pos=(random.randint(0,screen.get_width()), random.randint(0,screen.get_height())),
-						  vel=(random.uniform(-5,5), random.uniform(-5,5)),
-						  bodyGrav=1,
+						  vel=(random.uniform(-2,2), random.uniform(-2,2)),
+						  bodyGrav=.1,
 						  repel=0,
 						  spaceJelly=0,
 						  collide=True,
 						  merging=False,
-						  elasticity=.99,
+						  elasticity=0,
 						  radius = random.randint(5,50),
 						  ))
 
@@ -32,7 +32,7 @@ class Gravity:
 				ball.force(other)
 		for ball in self.balls:
 			ball.process()
-			# ball.wallCollide()
+			ball.wallCollide()
 			if not ball.exist:
 				self.balls.remove(ball)
 		# camera/= len(self.balls)

@@ -93,10 +93,10 @@ class Ball:
 		denom = msum * dist * dist
 		vdiff = other.vel - self.vel
 		overlap = self.radius + other.radius - dist
-		self.mov -= dir * overlap * (self.mass/msum)
+		self.mov -= dir * overlap * (other.mass/msum)
 
 		num = 2 * other.mass * vdiff.dot(diff)
-		self.acc += diff * num/denom * self.elasticity
+		self.acc += diff * num/denom * (self.elasticity+1)/2
 		
 		# merging
 		if self.merging and dist < self.radius:
