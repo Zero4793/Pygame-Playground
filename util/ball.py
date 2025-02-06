@@ -34,6 +34,7 @@ class Ball:
 	def process(self):
 		self.killNoClip()
 		self.vel *= 1-self.spaceJelly
+		self.vel.y += self.floorGrav
 		self.vel += self.acc
 		self.pos += self.vel + self.mov
 		self.acc = pygame.math.Vector2(0,0)
@@ -70,10 +71,6 @@ class Ball:
 			self.vel.x *= 1-self.friction
 			walls[3] = True
 		return walls
-
-
-	def gravity(self):
-		self.vel.y += self.floorGrav
 
 	
 	def force(self, other):

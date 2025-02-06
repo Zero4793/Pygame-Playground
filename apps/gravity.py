@@ -5,20 +5,62 @@ import pygame
 class Gravity:
 	def __init__(self, screen, _):
 		self.screen = screen
+		self.mouseP = pygame.math.Vector2(0,0)
+		self.drag = False
 
 		self.balls = []
-		for i in range(12):
-			self.balls.append(Ball(screen,
-						  pos=(random.randint(0,screen.get_width()), random.randint(0,screen.get_height())),
-						  vel=(random.uniform(-2,2), random.uniform(-2,2)),
-						  bodyGrav=.1,
-						  repel=0,
-						  spaceJelly=0,
-						  collide=True,
-						  merging=False,
-						  elasticity=0,
-						  radius = random.randint(5,50),
-						  ))
+		# for i in range(0):
+		# 	self.balls.append(Ball(screen,
+		# 				  pos=(random.randint(0,screen.get_width()), random.randint(0,screen.get_height())),
+		# 				  vel=(random.uniform(-2,2), random.uniform(-2,2)),
+		# 				  bodyGrav=.1,
+		# 				  repel=0,
+		# 				  spaceJelly=0,
+		# 				  collide=True,
+		# 				  merging=False,
+		# 				  elasticity=0.9,
+		# 				  radius = random.randint(5,50),
+		# 				  ))
+		self.balls.append(Ball(screen,
+						pos=(screen.get_width()/2, screen.get_height()/2),
+						vel=(0,0),
+						bodyGrav=.5,
+						collide=True,
+						merging=True,
+						elasticity=0.9,
+						radius = 100,
+						col=(255,200,0),
+						))
+		self.balls.append(Ball(screen,
+						pos=(screen.get_width()/2+200, screen.get_height()/2),
+						vel=(0,5),
+						bodyGrav=.5,
+						collide=True,
+						merging=True,
+						elasticity=0.9,
+						radius = 10,
+						col=(255,100,0),
+						))
+		self.balls.append(Ball(screen,
+						pos=(screen.get_width()/2+550, screen.get_height()/2),
+						vel=(0,3),
+						bodyGrav=.5,
+						collide=True,
+						merging=True,
+						elasticity=0.9,
+						radius = 20,
+						col=(0,150,255),
+						))
+		self.balls.append(Ball(screen,
+						pos=(screen.get_width()/2+600, screen.get_height()/2),
+						vel=(0,5),
+						bodyGrav=.5,
+						collide=True,
+						merging=True,
+						elasticity=0.9,
+						radius = 5,
+						col=(100,100,100),
+						))
 
 
 	def process(self, keyheld, keypressed):
@@ -32,16 +74,37 @@ class Gravity:
 				ball.force(other)
 		for ball in self.balls:
 			ball.process()
-			ball.wallCollide()
+			# ball.wallCollide()
 			if not ball.exist:
 				self.balls.remove(ball)
-		# camera/= len(self.balls)
-		camera/= mass
-		camera-= pygame.math.Vector2(self.screen.get_width()/2, self.screen.get_height()/2)
-		for ball in self.balls:
-			ball.pos -= camera		
+		if mass != 0:
+			camera/= mass
+			camera-= pygame.math.Vector2(self.screen.get_width()/2, self.screen.get_height()/2)
+			for ball in self.balls:
+				ball.pos -= camera
+		
+		if pygame.mouse.get_pressed()[0] and not self.drag:
+			self.mouseP = pygame.math.Vector2(pygame.mouse.get_pos())
+			self.drag = True
+		elif not pygame.mouse.get_pressed()[0] and self.drag:
+			self.drag = False
+			# create new ball
+			self.balls.append(Ball(self.screen,
+						  pos=self.mouseP,
+						  vel=(self.mouseP-pygame.math.Vector2(pygame.mouse.get_pos()))/25,
+						  bodyGrav=.5,
+						  repel=0,
+						  spaceJelly=0,
+						  collide=True,
+						  merging=True,
+						  elasticity=0.9,
+						  radius = 10,
+						  ))
+
 
 
 	def display(self):
+		if self.drag:
+			pygame.draw.line(self.screen, (255,100,100), self.mouseP, pygame.mouse.get_pos(), 2)
 		for ball in self.balls:
 			ball.display()
