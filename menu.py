@@ -2,6 +2,7 @@ from util.button import Button
 from apps.gravity import Gravity
 from apps.musicalBalls import MusicalBalls
 from apps.clicker import Clicker
+from apps.flow import Flow
 import pygame
 import sys
 
@@ -13,7 +14,8 @@ class Menu:
 		self.games = [
 			("Gravity Sim", Gravity),
 			("Musical Balls", MusicalBalls),
-			("Clicker", Clicker)
+			("Clicker", Clicker),
+			("Flow", Flow)
 		]
 
 		# buttons

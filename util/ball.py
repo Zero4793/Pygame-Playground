@@ -89,6 +89,7 @@ class Ball:
 		msum = self.mass + other.mass
 		denom = msum * dist * dist
 		vdiff = other.vel - self.vel
+		self.acc += vdiff * (other.mass / msum) * .1
 		overlap = self.radius + other.radius - dist
 		self.mov -= dir * overlap * (other.mass/msum)
 
