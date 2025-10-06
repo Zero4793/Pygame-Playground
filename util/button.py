@@ -25,10 +25,11 @@ class Button:
 			if not pygame.mouse.get_pressed()[0] and self.core.mouseTarget is self:
 				self.core.mouseTarget = None
 				self.active = True
-		else:
-			self.hover = False
-			if not pygame.mouse.get_pressed()[0] and self.core.mouseTarget is self:
-				self.core.mouseTarget = None
+			return
+		# else
+		self.hover = False
+		if not pygame.mouse.get_pressed()[0] and self.core.mouseTarget is self:
+			self.core.mouseTarget = None
 
 
 	def display(self):
