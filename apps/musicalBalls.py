@@ -14,7 +14,7 @@ class MusicalBalls:
 						  ))
 
 
-	def process(self, keyheld, keypressed):
+	def process(self):
 		for ball in self.balls:
 			ball.process()
 			walls = ball.wallCollide()

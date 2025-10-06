@@ -53,7 +53,7 @@ class Main:
 				sys.exit()
 		
 		# run window
-		self.window.process(self.keyheld, self.keypressed)
+		self.window.process()
 
 		# exit button
 		if self.window != self.menu and dist(pygame.mouse.get_pos(),(1400,0))<250:

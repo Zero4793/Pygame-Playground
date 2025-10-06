@@ -63,7 +63,7 @@ class Gravity:
 						))
 
 
-	def process(self, keyheld, keypressed):
+	def process(self):
 		camera = pygame.math.Vector2(0,0)
 		mass = 0
 		avgVel = pygame.math.Vector2(0,0)

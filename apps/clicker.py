@@ -13,7 +13,7 @@ class Clicker:
 		self.costs = [10**(i+1) for i in range(8)]
 
 
-	def process(self, keyheld, keypressed):
+	def process(self):
 		self.T += 1
 		if self.T % 1 == 0:
 			self.T = 0

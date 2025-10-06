@@ -3,6 +3,7 @@ from apps.gravity import Gravity
 from apps.musicalBalls import MusicalBalls
 from apps.clicker import Clicker
 from apps.flow import Flow
+from apps.vectarcade import VectArcade
 import pygame
 import sys
 
@@ -15,7 +16,8 @@ class Menu:
 			("Gravity Sim", Gravity),
 			("Musical Balls", MusicalBalls),
 			("Clicker", Clicker),
-			("Flow", Flow)
+			("Flow", Flow),
+			("VectArcade", VectArcade)
 		]
 
 		# buttons
@@ -24,7 +26,7 @@ class Menu:
 		# pos, dim, text[passive, hover, held, active], color[passive, hover, held, active]
 
 
-	def process(self, keyheld, keypressed):
+	def process(self):
 		# buttons
 		for i,b in enumerate(self.gameButtons):
 			b.process()
@@ -32,10 +34,6 @@ class Menu:
 				b.active = False
 				self.main.window = self.games[i][1](self.screen, self.main)
 		self.exitButton.process()
-		# handle button actions externally
-		# if self.gravSimButton.active:
-		# 	self.gravSimButton.active = False
-		# 	self.main.window = Gravity(self.screen)
 		if self.exitButton.active:
 			pygame.quit()
 			sys.exit()

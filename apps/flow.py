@@ -6,10 +6,9 @@ from pygame.math import Vector2
 scale = 20
 
 class Flow:
-	def __init__(self, screen, main):
+	def __init__(self, screen, _):
 		global scale
 		self.screen = screen
-		self.main = main
 
 		w,h = screen.get_size()
 		self.vel = [[Vector2(0,0) for j in range(h//scale)] for i in range(w//scale)]
@@ -18,7 +17,7 @@ class Flow:
 		self.balls = [Ball(screen,pos=(50*i,40*i), vel=(0,0), spaceJelly=0.002, collide=True) for i in range(20)]
 
 
-	def process(self, keyheld, keypressed):
+	def process(self):
 		# wind
 		wx,wy,wv = self.wind
 		self.vel[wx][wy] += wv
